@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CALCULATOR</title>
+    <style>
+        /* Basic styling so buttons are visible and aligned */
+        body { font-family: sans-serif; padding: 20px; }
+        #display { width: 200px; height: 30px; text-align: right; margin-bottom: 10px; font-size: 18px; }
+        button { width: 40px; height: 40px; font-size: 16px; margin: 2px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div>
+        <div>
+            <input id="display" type="text" readonly>
+        </div>
+        
+        <div id="buttons">
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>0</button>
+        </div>
+        
+        <div id="solving_buttons">
+            <button>+</button>
+            <button>-</button>
+            <button>/</button>
+            <button>*</button>
+        </div>
+        
+        <div id="clear_equal">
+            <button>=</button>
+            <button>C</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById("display");
+        const buttons = document.getElementById("buttons");
+        const solvingButtons = document.getElementById("solving_buttons");
+        const clearEqual = document.getElementById("clear_equal");
+
+        // Helper function to append characters to the display
+        function appendToDisplay(value) {
+            display.value += value.trim();
+        }
+
+        // 1. Handle number buttons (0-9)
+        buttons.addEventListener("click", (event) => {
+            if (event.target.tagName === "BUTTON") {
+                appendToDisplay(event.target.innerText);
+            }
+        });
+
+        // 2. Handle operator buttons (+, -, /, *)
+        solvingButtons.addEventListener("click", (event) => {
+            if (event.target.tagName === "BUTTON") {
+                appendToDisplay(event.target.innerText);
+            }
+        });
+
+        // 3. Handle '=' and 'C'
+        clearEqual.addEventListener("click", (event) => {
+            if (event.target.tagName === "BUTTON") {
+                const action = event.target.innerText.trim();
+
+                if (action === "C") {
+                    display.value = ""; // Clear display
+                } else if (action === "=") {
+                    try {
+                        // Evaluate the mathematical expression in the display
+                        if (display.value.trim() !== "") {
+                            display.value = eval(display.value);
+                        }
+                    } catch (error) {
+                        display.value = "Error"; // Handle invalid expressions (e.g. 5++)
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
